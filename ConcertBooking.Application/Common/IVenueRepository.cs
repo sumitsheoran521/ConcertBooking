@@ -9,6 +9,6 @@ namespace ConcertBooking.Application.Common
 {
     public interface IVenueRepository:IGenericRepository<Venue>
     {
-        Task UpdateVenue(Venue venue);
+        void UpdateVenue(Venue venue);
     }
 }

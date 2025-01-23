@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConcertBooking.Application.Common
 {
-    public interface IArtistRepository:IGenericRepository<Artist>
+    public interface IArtistRepository : IGenericRepository<Artist>
     {
         void UpdateArtist(Artist artist);
     }

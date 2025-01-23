@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ConcertBooking.Domain.Models
 {
-    public class ApplicationUser:IdentityUser
+    public class ApplicationUser : IdentityUser
     {
-        public ICollection<Booking> Booking { get; set; } = new List<Booking>();
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     }
 }

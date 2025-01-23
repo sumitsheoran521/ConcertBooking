@@ -7,13 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
   </ItemGroup>
 
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.ASPNETCORE.APP"/>
+	</ItemGroup>
+	
   <ItemGroup>
     <ProjectReference Include="..\ConcertBooking.Domain\ConcertBooking.Domain.csproj" />
   </ItemGroup>

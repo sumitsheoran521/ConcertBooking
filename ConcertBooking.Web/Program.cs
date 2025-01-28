@@ -20,6 +20,8 @@ builder.Services.AddScoped<IVenueService, VenueService>();
 builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUtilityService, UtilityService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IConcertService, ConcertService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

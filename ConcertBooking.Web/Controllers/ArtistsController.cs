@@ -1,10 +1,12 @@
 ﻿using ConcertBooking.Application.Services.Interfaces;
 using ConcertBooking.Domain.Models;
 using ConcertBooking.Web.ViewModels.ArtistViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConcertBooking.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ArtistsController : Controller
     {
 
@@ -50,11 +52,21 @@ namespace ConcertBooking.Web.Controllers
                 Name = vm.Name,
                 Bio = vm.Bio,
             };
-            if(vm.ImageUrl != null)
+
+            if (vm.ImageUrl != null)
             {
-                artist.ImageUrl = await _utilityService.SaveImage(ContainerName, vm.ImageUrl);
+                var imageUrl = await _utilityService.SaveImage(ContainerName, vm.ImageUrl);
+                if (!string.IsNullOrEmpty(imageUrl))
+                {
+                    artist.ImageUrl = imageUrl;  // Ensure it's set correctly
+                }
             }
+
             await _artistService.SaveArtist(artist);
+
+            // Debugging
+            Console.WriteLine("Artist Image URL: " + artist.ImageUrl);
+
             return RedirectToAction("Index");
         }
 

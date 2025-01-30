@@ -8,6 +8,7 @@ namespace ConcertBooking.Application.Common
 {
     public interface IDbInitial
     {
+
         Task DataSeed();
     }
 }

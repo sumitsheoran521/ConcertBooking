@@ -1,10 +1,12 @@
 ﻿using ConcertBooking.Application.Services.Interfaces;
 using ConcertBooking.Domain.Models;
 using ConcertBooking.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConcertBooking.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class VenuesController : Controller
     {
         private IVenueService _venueService;

@@ -1,0 +1,59 @@
+﻿@model AvailableTicketsViewModel
+@{
+    ViewData["Title"] = "AvailableTickets";
+}
+
+<h1 class="text-center">Available Tickets</h1>
+
+<div class="container">
+    <h2 class="text-center">@Model.ConcertName - Available Seats</h2>
+    <hr />
+    <form asp-action="BookTickets" asp-controller="Home" method="post">
+        <div class="d-flex flex-column align-items-center">
+
+            <!-- Front Rows (Left and Right with Middle Gap) -->
+            <div class="d-flex justify-content-between w-100 mb-4">
+                <!-- Left 1/4 -->
+                <div class="d-flex flex-wrap gap-2" style="width: 24%;">
+                    @foreach (var seat in Model.AvailableSeats.Take(Model.AvailableSeats.Count() / 4))
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="selectedSeats" value="@seat" id="seat_@seat" />
+                            <label class="form-check-label" for="seat_@seat">@seat</label>
+                        </div>
+                    }
+                </div>
+
+                <!-- Middle Gap (Gate Entry) -->
+                <div class="d-flex align-items-center bg-warning rounded rounded-5" style="width: 100%; text-align: center;">
+                    <h4 class="mx-auto text-dark fw-bolder">STAGE</h4>
+                </div>
+
+                <!-- Right 1/4 -->
+                <div class="d-flex flex-wrap gap-2" style="width: 24%;">
+                    @foreach (var seat in Model.AvailableSeats.Skip(Model.AvailableSeats.Count() / 4).Take(Model.AvailableSeats.Count() / 4))
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="selectedSeats" value="@seat" id="seat_@seat" />
+                            <label class="form-check-label" for="seat_@seat">@seat</label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Back Rows (Covering Full Width Without Gap) -->
+            <div class="d-flex flex-wrap gap-2 w-100 justify-content-center">
+                @foreach (var seat in Model.AvailableSeats.Skip(Model.AvailableSeats.Count() / 2))
+                {
+                    <div class="form-check" style="width: 4%;">
+                        <input class="form-check-input" type="checkbox" name="selectedSeats" value="@seat" id="seat_@seat" />
+                        <label class="form-check-label" for="seat_@seat">@seat</label>
+                    </div>
+                }
+            </div>
+
+        </div>
+        <input type="hidden" asp-for="ConcertId" />
+        <button type="submit" class="btn btn-success mt-3 d-block mx-auto">Book Selected Seats</button>
+    </form>
+</div>

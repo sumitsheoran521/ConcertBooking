@@ -59,7 +59,7 @@ namespace ConcertBooking.Application.Services.Implementions
                 await File.WriteAllBytesAsync(filePath, content);
             }
             var basePath = $"{_contextAccessor.HttpContext.Request.Scheme}://{_contextAccessor.HttpContext.Request.Host}";
-            var combinePath = Path.Combine(basePath, ContainerName, filename).Replace("\\", "/");
+            var combinePath = $"{basePath}/{ContainerName}/{filename}";
             return combinePath;
         }
     }

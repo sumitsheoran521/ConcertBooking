@@ -12,7 +12,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<FrameworkReference Include="Microsoft.ASPNETCORE.APP"/>
+		<FrameworkReference Include="Microsoft.ASPNETCORE.APP" />
 	</ItemGroup>
 	
   <ItemGroup>

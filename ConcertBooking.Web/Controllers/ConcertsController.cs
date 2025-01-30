@@ -2,11 +2,13 @@
 using ConcertBooking.Domain.Models;
 using ConcertBooking.Web.ViewModels.ConcertViewModels;
 using ConcertBooking.Web.ViewModels.DashboardViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ConcertBooking.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ConcertsController : Controller
     {
         private readonly IArtistService _artistService;
@@ -14,19 +16,17 @@ namespace ConcertBooking.Web.Controllers
         private readonly IConcertService _concertService;
         private readonly IUtilityService _utilityService;
         private readonly IVenueService _venueService;
-        private string containerName = "ConcertImage";
+        private string ContainerName = "ConcertImage";
 
-        public ConcertsController(IArtistService artistService, IBookingService bookingService, IConcertService concertService, IUtilityService utilityService, IVenueService venueService, string containerName)
+        public ConcertsController(IArtistService artistService, IBookingService bookingService, IConcertService concertService, IUtilityService utilityService, IVenueService venueService)
         {
             _artistService = artistService;
             _bookingService = bookingService;
             _concertService = concertService;
             _utilityService = utilityService;
             _venueService = venueService;
-            this.containerName = containerName;
         }
 
-        [HttpGet]
         public IActionResult Index()
         {
             var concerts = _concertService.GetAllConcert();
@@ -42,7 +42,7 @@ namespace ConcertBooking.Web.Controllers
                     VenueName = item.Venue.Name,
                 });
             };
-            return View();
+            return View(list);
         }
 
         [HttpGet]
@@ -50,8 +50,8 @@ namespace ConcertBooking.Web.Controllers
         {
             var venues = _venueService.GetAllVenue();
             var artists = _artistService.GetAllArtist();
-            ViewBag.VenueList = new SelectList(venues, "Id", "Name");
-            ViewBag.ArtistList = new SelectList(artists, "Id", "Name");
+            ViewBag.VenuesList = new SelectList(venues, "Id", "Name");
+            ViewBag.ArtistsList = new SelectList(artists, "Id", "Name");
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace ConcertBooking.Web.Controllers
             };
             if (vm.ImageUrl != null)
             {
-                concert.ImageUrl = await _utilityService.SaveImage(containerName, vm.ImageUrl);
+                concert.ImageUrl = await _utilityService.SaveImage(ContainerName, vm.ImageUrl);
             }
             await _concertService.SaveConcert(concert);
             return RedirectToAction("Index");
@@ -107,7 +107,7 @@ namespace ConcertBooking.Web.Controllers
             concert.VenueId = vm.VenueId;
             if (vm.ChooseImage != null)
             {
-                concert.ImageUrl = await _utilityService.EditImage(containerName, vm.ChooseImage, concert.ImageUrl);
+                concert.ImageUrl = await _utilityService.EditImage(ContainerName, vm.ChooseImage, concert.ImageUrl);
             }
             _concertService.UpdateConcert(concert);
             return RedirectToAction("Index");
@@ -117,7 +117,7 @@ namespace ConcertBooking.Web.Controllers
             var concert = _concertService.GetConcert(id);
             if (concert != null)
             {
-                await _utilityService.DeleteImage(containerName, concert.ImageUrl);
+                await _utilityService.DeleteImage(ContainerName, concert.ImageUrl);
                 await _concertService.DeleteConcert(concert);
             }
             return RedirectToAction("Index");
